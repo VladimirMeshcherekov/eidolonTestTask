@@ -17,6 +17,7 @@ namespace Services.Analytic
         private string _saveFilePath;
         private EventRequest _eventRequest;
         private AsyncTimer _sendEventTimer;
+        private readonly HttpClient _client = new();
 
         private void Start()
         {
@@ -42,22 +43,19 @@ namespace Services.Analytic
             var content = new StringContent(JsonConvert.SerializeObject(_eventRequest), Encoding.UTF8,
                 "application/json");
 
-            using (var client = new HttpClient())
+            try
             {
-                try
-                {
-                    var response = await client.PostAsync(analyticServerUrl, content);
+                var response = await _client.PostAsync(analyticServerUrl, content);
 
-                    if (response.IsSuccessStatusCode)
-                    {
-                        _eventRequest.ResetEvents();
-                        _sendEventTimer.StopTimer();
-                    }
-                }
-                catch (Exception ex)
+                if (response.IsSuccessStatusCode)
                 {
-                    Debug.LogError($"Failed to send analytics data: {ex.Message}");
+                    _eventRequest.ResetEvents();
+                    _sendEventTimer.StopTimer();
                 }
+            }
+            catch (Exception ex)
+            {
+                Debug.LogError($"Failed to send analytics data: {ex.Message}");
             }
         }
     }
