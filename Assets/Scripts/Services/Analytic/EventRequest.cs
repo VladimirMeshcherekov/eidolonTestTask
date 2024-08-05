@@ -23,6 +23,11 @@ namespace Services.Analytic
         {
             QueueEvents = new List<AnalyticEvent>();
         }
+
+        public bool IsEventQueueEmpty()
+        {
+            return QueueEvents.Capacity == 0;
+        }
         
     }
 }

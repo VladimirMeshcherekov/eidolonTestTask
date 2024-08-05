@@ -235,8 +235,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6cd0dd008b4cdd44fbbcc36cbaa9b083, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  requestCooldown: 0
-  analyticServerUrl: 
+  requestCooldown: 3000
+  analyticServerUrl: localhost:00001
 --- !u!4 &906123629
 Transform:
   m_ObjectHideFlags: 0

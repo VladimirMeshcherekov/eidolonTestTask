@@ -30,6 +30,7 @@ namespace Services.Analytic
 
         public void TrackEvent(string type, string data)
         {
+            if (!_eventRequest.IsEventQueueEmpty()) TrySendRequest();
             if (!_sendEventTimer.IsTimerTicking) _sendEventTimer.StartTimer();
 
             _eventRequest.AddEvent(new AnalyticEvent(type, data));
@@ -38,7 +39,7 @@ namespace Services.Analytic
 
         private async void TrySendRequest()
         {
-            if (_eventRequest.QueueEvents.Capacity == 0) return;
+            if (!_eventRequest.IsEventQueueEmpty()) return;
 
             var content = new StringContent(JsonConvert.SerializeObject(_eventRequest), Encoding.UTF8,
                 "application/json");
