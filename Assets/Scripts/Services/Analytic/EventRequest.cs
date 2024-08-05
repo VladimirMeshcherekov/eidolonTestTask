@@ -26,7 +26,7 @@ namespace Services.Analytic
 
         public bool IsEventQueueEmpty()
         {
-            return QueueEvents.Capacity == 0;
+            return QueueEvents.Count == 0;
         }
         
     }
