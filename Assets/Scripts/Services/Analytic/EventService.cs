@@ -53,10 +53,15 @@ namespace Services.Analytic
                     _eventRequest.ResetEvents();
                     _sendEventTimer.StopTimer();
                 }
+                else
+                {
+                    _eventRequest.GroupPreviousEvents();
+                }
             }
             catch (Exception ex)
             {
                 Debug.LogError($"Failed to send analytics data: {ex.Message}");
+                _eventRequest.GroupPreviousEvents();
             }
         }
     }
